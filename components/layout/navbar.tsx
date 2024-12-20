@@ -3,7 +3,7 @@
 import { LogOut, Menu } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
-// import { ThemeToggle } from '@/components/theme/theme-toggle';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 import { useState } from 'react';
 
 export function Navbar() {
@@ -34,7 +34,7 @@ export function Navbar() {
 
           {/* Desktop menu */}
           <div className="hidden sm:flex sm:items-center sm:space-x-2">
-            {/* <ThemeToggle /> */}
+            <ThemeToggle />
             <Button
               variant="ghost"
               onClick={handleLogout}
@@ -51,7 +51,7 @@ export function Navbar() {
           <div className="sm:hidden">
             <div className="pt-2 pb-3 space-y-1">
               <div className="flex justify-center pb-2">
-                {/* <ThemeToggle /> */}
+                <ThemeToggle />
               </div>
               <Button
                 variant="ghost"
