@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
 import { usePosts } from '@/hooks/use-posts';
 import type { Post } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardPage() {
   const { status } = useAuth();
@@ -20,6 +21,7 @@ export default function DashboardPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
+  const router = useRouter()
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -47,6 +49,10 @@ export default function DashboardPage() {
     setSelectedPost(post);
     setIsDialogOpen(true);
   };
+
+  // const handleEdit = (id: string) => {
+  //   router.push(`/dashboard/posts/edit?id=${id}`);
+  // };
 
   const handleUpdate = async (data: Partial<Post>) => {
     if (!selectedPost) return;
@@ -108,10 +114,12 @@ export default function DashboardPage() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Blog Posts</h2>
         <Button
-          onClick={() => {
+            onClick={() => {
             setSelectedPost(null);
             setIsDialogOpen(true);
           }}
+
+          // onClick={() => router.push('/dashboard/posts/create')}
           className="bg-indigo-600 hover:bg-indigo-700"
         >
           <Plus className="w-4 h-4 mr-2" />

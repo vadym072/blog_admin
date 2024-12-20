@@ -33,6 +33,12 @@ export function usePosts() {
 
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
+  const getPost = async (id: string) => {
+    const response = await fetch(`/api/posts/${id}`);
+    if (!response.ok) throw new Error('Failed to fetch post');
+    return response.json();
+  };
+
   const createPost = async (data: Omit<Post, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
       const response = await fetch('/api/posts', {
@@ -79,6 +85,7 @@ export function usePosts() {
     currentPage,
     totalPages,
     fetchPosts,
+    getPost,
     createPost,
     updatePost,
     deletePost,

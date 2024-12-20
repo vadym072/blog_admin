@@ -51,7 +51,7 @@ export function PostCard({ post, onEdit, onDelete }: PostCardProps) {
           </Badge>
         </div>
         <h3 className="text-lg font-semibold mb-2 text-card-foreground">{post.title}</h3>
-        <p className="text-muted-foreground mb-4 line-clamp-2">{post.content}</p>
+        <p className="text-muted-foreground mb-4 line-clamp-2">{post.excerpt}</p>
         <div className="flex justify-between items-center">
           <div className="flex space-x-2">
             <Button

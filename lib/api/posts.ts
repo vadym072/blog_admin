@@ -33,6 +33,21 @@ export async function createPost(data: Omit<Post, 'id' | 'createdAt' | 'updatedA
   }
 }
 
+export async function getPost(id: string) {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id }
+    });
+    if (!post) {
+      throw new Error('Post not found');
+    }
+    return post;
+  } catch (error) {
+    console.error('Error updating post:', error);
+    throw new Error('Failed to update post');
+  }
+}
+
 export async function updatePost(id: string, data: Partial<Post>) {
   try {
     return await prisma.post.update({
