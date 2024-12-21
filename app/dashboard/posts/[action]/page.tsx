@@ -90,7 +90,7 @@ export default function PostForm() {
     if (isEditing) {
       fetchPost();
     }
-  }, [isEditing, params.action, getPost, reset]);
+  }, [isEditing]);
 
   const onSubmit = async (data: any) => {
     setLoading(true);
