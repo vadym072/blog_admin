@@ -45,14 +45,14 @@ export default function DashboardPage() {
     }
   };
 
-  const handleEdit = (post: Post) => {
-    setSelectedPost(post);
-    setIsDialogOpen(true);
-  };
-
-  // const handleEdit = (id: string) => {
-  //   router.push(`/dashboard/posts/edit?id=${id}`);
+  // const handleEdit = (post: Post) => {
+  //   setSelectedPost(post);
+  //   setIsDialogOpen(true);
   // };
+
+  const handleEdit = (id: string) => {
+    router.push(`/dashboard/posts/${id}`);
+  };
 
   const handleUpdate = async (data: Partial<Post>) => {
     if (!selectedPost) return;
@@ -114,12 +114,12 @@ export default function DashboardPage() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Blog Posts</h2>
         <Button
-            onClick={() => {
-            setSelectedPost(null);
-            setIsDialogOpen(true);
-          }}
+          //   onClick={() => {
+          //   setSelectedPost(null);
+          //   setIsDialogOpen(true);
+          // }}
 
-          // onClick={() => router.push('/dashboard/posts/create')}
+          onClick={() => router.push('/dashboard/posts/create')}
           className="bg-indigo-600 hover:bg-indigo-700"
         >
           <Plus className="w-4 h-4 mr-2" />
@@ -132,7 +132,7 @@ export default function DashboardPage() {
           <PostCard
             key={post.id}
             post={post}
-            onEdit={() => handleEdit(post)}
+            onEdit={() => handleEdit(post.id)}
             onDelete={() => handleDeleteClick(post)}
           />
         ))}

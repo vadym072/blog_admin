@@ -79,7 +79,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
       </label>
 
       {previewUrl && (
-        <div className="mt-2">
+        <div className="mt-2 flex flex-col items-center w-full h-full">
           <Image
             src={previewUrl}
             alt="Preview"

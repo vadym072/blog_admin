@@ -11,8 +11,6 @@ import {
   Italic,
   List,
   ListOrdered,
-  Link as LinkIcon,
-  Image as ImageIcon,
   Heading1,
   Heading2,
   Quote,
@@ -81,20 +79,6 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
     return null;
   }
 
-  const addImage = () => {
-    const url = window.prompt("Enter image URL");
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  };
-
-  const addLink = () => {
-    const url = window.prompt("Enter URL");
-    if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
-    }
-  };
-
   return (
     <div className="border rounded-lg overflow-hidden">
       <div className="border-b p-2 bg-muted/50 flex flex-wrap gap-2">
@@ -104,9 +88,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
             variant={
               editor.isActive("heading", { level: 1 }) ? "secondary" : "ghost"
             }
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 1 }).run()
-            }
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().toggleHeading({ level: 1 }).run();
+            }}
             title="Heading 1"
           >
             <Heading1 className="h-4 w-4" />
@@ -116,9 +101,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
             variant={
               editor.isActive("heading", { level: 2 }) ? "secondary" : "ghost"
             }
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 2 }).run()
-            }
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().toggleHeading({ level: 2 }).run();
+            }}
             title="Heading 2"
           >
             <Heading2 className="h-4 w-4" />
@@ -129,7 +115,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant={editor.isActive("bold") ? "secondary" : "ghost"}
-            onClick={() => editor.chain().focus().toggleBold().run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().toggleBold().run();
+            }}
             title="Bold"
           >
             <Bold className="h-4 w-4" />
@@ -137,7 +126,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant={editor.isActive("italic") ? "secondary" : "ghost"}
-            onClick={() => editor.chain().focus().toggleItalic().run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().toggleItalic().run();
+            }}
             title="Italic"
           >
             <Italic className="h-4 w-4" />
@@ -148,7 +140,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant={editor.isActive("bulletList") ? "secondary" : "ghost"}
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().toggleBulletList().run();
+            }}
             title="Bullet List"
           >
             <List className="h-4 w-4" />
@@ -156,7 +151,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant={editor.isActive("orderedList") ? "secondary" : "ghost"}
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().toggleOrderedList().run();
+            }}
             title="Numbered List"
           >
             <ListOrdered className="h-4 w-4" />
@@ -167,21 +165,13 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant={editor.isActive("blockquote") ? "secondary" : "ghost"}
-            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().toggleBlockquote().run();
+            }}
             title="Quote"
           >
             <Quote className="h-4 w-4" />
-          </Button>
-          <Button size="sm" variant="ghost" onClick={addLink} title="Add Link">
-            <LinkIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={addImage}
-            title="Add Image"
-          >
-            <ImageIcon className="h-4 w-4" />
           </Button>
         </div>
 
@@ -189,7 +179,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant="ghost"
-            onClick={() => editor.chain().focus().setTextAlign("left").run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().setTextAlign("left").run();
+            }}
             title="Align Left"
           >
             <AlignLeft className="h-4 w-4" />
@@ -197,7 +190,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant="ghost"
-            onClick={() => editor.chain().focus().setTextAlign("center").run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().setTextAlign("center").run();
+            }}
             title="Align Center"
           >
             <AlignCenter className="h-4 w-4" />
@@ -205,7 +201,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant="ghost"
-            onClick={() => editor.chain().focus().setTextAlign("right").run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().setTextAlign("right").run();
+            }}
             title="Align Right"
           >
             <AlignRight className="h-4 w-4" />
@@ -216,7 +215,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant="ghost"
-            onClick={() => editor.chain().focus().undo().run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().undo().run();
+            }}
             disabled={!editor.can().undo()}
             title="Undo"
           >
@@ -225,7 +227,10 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
           <Button
             size="sm"
             variant="ghost"
-            onClick={() => editor.chain().focus().redo().run()}
+            onClick={(event) => {
+              event.preventDefault();
+              editor.chain().focus().redo().run();
+            }}
             disabled={!editor.can().redo()}
             title="Redo"
           >

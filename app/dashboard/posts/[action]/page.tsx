@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,13 +22,14 @@ import { postSchema } from "@/lib/validations/post";
 import { useToast } from "@/hooks/use-toast";
 import { usePosts } from "@/hooks/use-posts";
 import { Textarea } from "@/components/ui/textarea";
+import { PlusIcon, Trash2 } from "lucide-react";
 
 export default function PostForm() {
   const router = useRouter();
   const params = useParams();
   const { toast } = useToast();
   const { createPost, updatePost, getPost } = usePosts();
-  const isEditing = params.action === "edit";
+  const isEditing = params.action !== "create";
 
   type FormValues = {
     title: string;
@@ -39,7 +40,6 @@ export default function PostForm() {
     published: boolean;
   };
 
-  // Update the useForm defaultValues
   const {
     register,
     handleSubmit,
@@ -59,8 +59,25 @@ export default function PostForm() {
     },
   });
 
+  const [loading, setLoading] = useState(false);
+  // const [additems, setadditems] = useState<string[]>([""]);
+
+  // const addInput = () => {
+  //   setadditems([...additems, ""]);
+  // };
+
+  // const removeInput = (index: number) => {
+  //   setadditems(additems.filter((_, i) => i !== index));
+  // };
+
+  // const handleInputChange = (index: number, value: string) => {
+  //   const newInputs = [...additems];
+  //   newInputs[index] = value;
+  //   setadditems(newInputs);
+  // };
+
   const fetchPost = async () => {
-    const post = await getPost(params.id as string);
+    const post = await getPost(params.action as string);
     if (post) {
       reset({
         ...post,
@@ -73,12 +90,13 @@ export default function PostForm() {
     if (isEditing) {
       fetchPost();
     }
-  }, [isEditing, params.id, getPost, reset]);
+  }, [isEditing, params.action, getPost, reset]);
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     try {
       if (isEditing) {
-        await updatePost(params.id as string, data);
+        await updatePost(params.action as string, data);
         toast({
           title: "Success",
           description: "Post updated successfully",
@@ -97,6 +115,8 @@ export default function PostForm() {
         description: `Failed to ${isEditing ? "update" : "create"} post`,
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -172,6 +192,36 @@ export default function PostForm() {
           )}
         </div>
 
+        {/* <div className="space-y-4">
+          <Label>Section</Label>
+          {additems.map((input, index) => (
+            <div key={index} className="flex items-center space-x-2">
+              <Input
+                value={input}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+                placeholder={`section ${index + 1}`}
+                className="w-full"
+              />
+              <Button
+                variant="outline"
+                size="default"
+                onClick={() => removeInput(index)}
+                className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          ))}
+          <Button
+            variant="outline"
+            size="default"
+            onClick={addInput}
+            className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
+          >
+            <PlusIcon className="w-4 h-4" />
+          </Button>
+        </div> */}
+
         <div className="flex items-center space-x-2">
           <Switch
             id="published"
@@ -193,9 +243,10 @@ export default function PostForm() {
           </Button>
           <Button
             type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white"
+            className={`bg-indigo-600 hover:bg-indigo-700 text-white ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+            disabled={loading}
           >
-            {isEditing ? "Update Post" : "Create Post"}
+            {loading ? "Loading..." : (isEditing ? "Update Post" : "Create Post")}
           </Button>
         </div>
       </form>
