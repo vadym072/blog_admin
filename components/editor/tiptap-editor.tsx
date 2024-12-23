@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -74,6 +75,12 @@ export function TipTapEditor({ content, onChange }: TipTapEditorProps) {
     injectCSS: true,
     immediatelyRender: false,
   });
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(content || "");
+    }
+  }, [content, editor]);
 
   if (!editor) {
     return null;
