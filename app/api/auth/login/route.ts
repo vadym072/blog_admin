@@ -1,5 +1,5 @@
 import { verifyCredentials } from '@/lib/auth';
-
+import { sign } from 'jsonwebtoken';
 /**
  * @swagger
  * tags:
@@ -37,8 +37,10 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
     const result = await verifyCredentials(email, password);
+
+    const token = sign({ id: result.user.id, email: result.user.email }, "secret-key", { expiresIn: "1h" })
     
-    return new Response(JSON.stringify(result), {
+    return new Response(JSON.stringify({...result, token}), {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {

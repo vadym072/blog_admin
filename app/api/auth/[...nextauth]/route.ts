@@ -1,6 +1,7 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { verifyCredentials } from '@/lib/auth';
+import { sign } from 'jsonwebtoken';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -20,7 +21,10 @@ export const authOptions: NextAuthOptions = {
             credentials.email,
             credentials.password
           );
-          return user;
+
+          const token = sign({ id: user.id, email: user.email }, "secret-key", { expiresIn: "1h" })
+
+          return {...user, token};
         } catch (error) {
           return null;
         }
@@ -38,12 +42,15 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.email = user.email;
       }
+      console.log(token)
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
+        session.user.email = token.email as string;
       }
       return session;
     },
