@@ -15,14 +15,14 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { TipTapEditor } from "@/components/editor/tiptap-editor";
+// import { TipTapEditor } from "@/components/editor/tiptap-editor";
 import { ImageUpload } from "@/components/posts/image-upload";
 import { Category } from "@prisma/client";
 import { postSchema } from "@/lib/validations/post";
 import { useToast } from "@/hooks/use-toast";
 import { usePosts } from "@/hooks/use-posts";
 import { Textarea } from "@/components/ui/textarea";
-import { PlusIcon, Trash2 } from "lucide-react";
+// import { PlusIcon, Trash2 } from "lucide-react";
 
 export default function PostForm() {
   const router = useRouter();
@@ -183,9 +183,15 @@ export default function PostForm() {
 
         <div className="space-y-4">
           <Label>Content</Label>
-          <TipTapEditor
+          {/* <TipTapEditor
             content={watch("content")}
             onChange={(value) => setValue("content", value)}
+          /> */}
+          <Textarea
+            id="excerpt"
+            {...register("content")}
+            placeholder="Enter content as HTML format..."
+            className="w-full h-48 resize-none"
           />
           {errors.content && (
             <p className="text-sm text-destructive">{errors.content.message}</p>
